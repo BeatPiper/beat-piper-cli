@@ -1,4 +1,4 @@
-# beat-piper
+# Beat Piper
 
 # Goal
 Search for Beat Saber maps using Spotify playlists
@@ -11,3 +11,7 @@ Search for Beat Saber maps using Spotify playlists
 3. Run `yarn start`
 
 The tool currently only searches for a playlist with the name `test` and may fail if there are too many songs in the playlist.
+
+# Attributions
+
+I got the name from a [reddit post](https://www.reddit.com/r/beatsaber/comments/hneox9/comment/fxbynuq) from [@PapuaNewGuinean](https://www.reddit.com/user/PapuaNewGuinean). I hope that's okay
