@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-export default class BeastSaberClient {
+export default class BeatSaverClient {
   browser = null;
 
   constructor(browser) {
@@ -8,7 +8,7 @@ export default class BeastSaberClient {
   }
 
   static async init() {
-    return new BeastSaberClient(await puppeteer.launch());
+    return new BeatSaverClient(await puppeteer.launch());
   }
 
   async destroy() {
@@ -17,12 +17,14 @@ export default class BeastSaberClient {
 
   async search(track) {
     const page = await this.browser.newPage();
-    await page.goto(`https://bsaber.com/?s=${encodeURI(track.search)}`);
-    await page.waitForSelector('article.post > div.row > div.medium-8 > header.post-title');
-    const maps = await page.$$eval('article.post > div.row > div.medium-8', results =>
+    await page.goto(`https://beatsaver.com/?q=${encodeURI(track.search)}`);
+    await page.waitForSelector('.search-results > .beatmap > .info');
+    // TODO: why do we need this timeout?
+    await page.waitForTimeout(2500);
+    const maps = await page.$$eval('.search-results > .beatmap', results =>
       results.map(result => ({
-        title: result.querySelector('header.post-title').textContent.trim(),
-        downloadUrl: result.querySelector('a.-download-zip').href,
+        title: result.querySelector('.info > a').textContent.trim(),
+        downloadUrl: result.querySelector('.links > a:last-child').href,
         // TODO: add up and down votes
         // TODO: add difficulties
       }))
