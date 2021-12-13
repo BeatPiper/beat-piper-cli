@@ -1,4 +1,4 @@
-# Beat Piper
+![Banner](https://socialify.git.ci/D3SOX/beat-piper/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Floating%20Cogs&pulls=1&stargazers=1&theme=Dark)
 
 # Goal
 Search for Beat Saber maps using Spotify playlists
