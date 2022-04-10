@@ -1,39 +1,48 @@
-import puppeteer, { Browser } from 'puppeteer';
-import { Track } from '../types';
+import { Track, TrackWithMaps } from '../types';
+import BeatSaverAPI from 'beatsaver-api';
+import { SortOrder } from 'beatsaver-api/lib/api/search.js';
+import { MapDetail } from 'beatsaver-api/lib/models/MapDetail.js';
+import { MapVersion } from 'beatsaver-api/lib/models/MapVersion.js';
 
 export default class BeatSaverClient {
-  browser: Browser;
+  private readonly api: BeatSaverAPI;
 
-  constructor(browser: Browser) {
-    this.browser = browser;
+  constructor() {
+    this.api = new BeatSaverAPI({
+      AppName: 'Beat Piper',
+      Version: '0.0.1',
+    });
   }
 
-  static async init() {
-    return new BeatSaverClient(await puppeteer.launch());
+  static getLatestVersion(map: MapDetail): MapVersion {
+    return map.versions.sort((a, b) => b.createdAt.epochSeconds - a.createdAt.epochSeconds)[0];
   }
 
-  async destroy() {
-    await this.browser.close();
+  async searchInBatches(tracks: Track[]): Promise<TrackWithMaps[]> {
+    // create chunks of 100 track
+    const chunks = [];
+    for (let i = 0; i < tracks.length; i += 10) {
+      chunks.push(tracks.slice(i, i + 10));
+    }
+    const results: TrackWithMaps[] = [];
+    // search for each chunk
+    for (const chunk of chunks) {
+      const chunkResults = await Promise.all(chunk.map(track => this.search(track)));
+      results.push(...chunkResults);
+      // wait for 1 second between each search
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    return results;
   }
 
-  async search(track: Track) {
-    const page = await this.browser.newPage();
-    await page.goto(`https://beatsaver.com/?q=${encodeURI(track.search)}`);
-    await page.waitForSelector('.search-results > .beatmap > .info');
-    // TODO: why do we need this timeout?
-    await page.waitForTimeout(2500);
-    const maps = await page.$$eval('.search-results > .beatmap', results =>
-      results.map(result => ({
-        title: result.querySelector('.info > a')!.textContent!.trim(),
-        downloadUrl: result.querySelector<HTMLAnchorElement>('.links > a:last-child')!.href,
-        // TODO: add up and down votes
-        // TODO: add difficulties
-      }))
-    );
-    // title has to include artist & track name (maybe also add some kind of regex matching)
+  async search(track: Track): Promise<TrackWithMaps> {
+    const results = await this.api.searchMaps({
+      q: track.search,
+      sortOrder: SortOrder.Relevance,
+    });
     return {
       track,
-      maps: maps.filter(({ title }) => title.includes(track.name) && title.includes(track.artist)),
+      maps: results.docs.filter(map => map.name.toLowerCase().includes(track.name.toLowerCase())), // TODO: maybe use Levenshtein distance
     };
   }
 }
