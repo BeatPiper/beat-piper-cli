@@ -7,7 +7,7 @@
   "license": "GPL-3.0-or-later",
   "type": "module",
   "scripts": {
-    "start": "node ."
+    "start": "node -r dotenv/config ."
   },
   "dependencies": {
     "dotenv": "^10.0.0",

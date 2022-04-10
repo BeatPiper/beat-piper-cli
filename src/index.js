@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import SpotifyWebApi from 'spotify-web-api-node';
 import BeastSaberClient from './util/beastsaber.js';
 import BeatSaverClient from './util/beatsaver.js';
@@ -11,9 +10,7 @@ import download from 'download';
 // TODO: add BeatSaver as alternative source
 // TODO: add option to download map with best rating / given difficulty
 // TODO: download progress
-
-// register .env
-dotenv.config();
+// TODO: add dependabot, eslint and ci workflow
 
 // create output folder
 if (!(await fs.existsSync('output'))) {
