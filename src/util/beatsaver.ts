@@ -1,9 +1,10 @@
-import puppeteer from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer';
+import { Track } from '../types';
 
 export default class BeatSaverClient {
-  browser = null;
+  browser: Browser;
 
-  constructor(browser) {
+  constructor(browser: Browser) {
     this.browser = browser;
   }
 
@@ -15,7 +16,7 @@ export default class BeatSaverClient {
     await this.browser.close();
   }
 
-  async search(track) {
+  async search(track: Track) {
     const page = await this.browser.newPage();
     await page.goto(`https://beatsaver.com/?q=${encodeURI(track.search)}`);
     await page.waitForSelector('.search-results > .beatmap > .info');
@@ -23,8 +24,8 @@ export default class BeatSaverClient {
     await page.waitForTimeout(2500);
     const maps = await page.$$eval('.search-results > .beatmap', results =>
       results.map(result => ({
-        title: result.querySelector('.info > a').textContent.trim(),
-        downloadUrl: result.querySelector('.links > a:last-child').href,
+        title: result.querySelector('.info > a')!.textContent!.trim(),
+        downloadUrl: result.querySelector<HTMLAnchorElement>('.links > a:last-child')!.href,
         // TODO: add up and down votes
         // TODO: add difficulties
       }))

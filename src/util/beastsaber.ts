@@ -1,9 +1,10 @@
-import puppeteer from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer';
+import { Track } from '../types';
 
 export default class BeastSaberClient {
-  browser = null;
+  browser: Browser;
 
-  constructor(browser) {
+  constructor(browser: Browser) {
     this.browser = browser;
   }
 
@@ -15,14 +16,14 @@ export default class BeastSaberClient {
     await this.browser.close();
   }
 
-  async search(track) {
+  async search(track: Track) {
     const page = await this.browser.newPage();
     await page.goto(`https://bsaber.com/?s=${encodeURI(track.search)}`);
     await page.waitForSelector('article.post > div.row > div.medium-8 > header.post-title');
     const maps = await page.$$eval('article.post > div.row > div.medium-8', results =>
       results.map(result => ({
-        title: result.querySelector('header.post-title').textContent.trim(),
-        downloadUrl: result.querySelector('a.-download-zip').href,
+        title: result.querySelector('header.post-title')!.textContent!.trim(),
+        downloadUrl: result.querySelector<HTMLAnchorElement>('a.-download-zip')!.href,
         // TODO: add up and down votes
         // TODO: add difficulties
       }))

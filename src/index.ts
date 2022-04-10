@@ -1,12 +1,12 @@
 import SpotifyWebApi from 'spotify-web-api-node';
 import BeastSaberClient from './util/beastsaber.js';
 import BeatSaverClient from './util/beatsaver.js';
-import * as fs from 'fs';
+import fs from 'fs';
 import download from 'download';
+import { Track } from './types';
 
 // TODO: add inquirer and ask if they want to use their own playlist or a link or saved tracks or recently played tracks or top tracks
 // TODO: error handling
-// TODO: convert to typescript
 // TODO: add BeatSaver as alternative source
 // TODO: add option to download map with best rating / given difficulty
 // TODO: download progress
@@ -32,13 +32,13 @@ const beatSaverClient = await BeatSaverClient.init();
 // fetch user's playlists
 const me = await spotifyApi.getMe();
 
-const playlists = await spotifyApi.getUserPlaylists(me.id);
+const playlists = await spotifyApi.getUserPlaylists(me.body.id);
 console.log(playlists.body.items);
-const playlist = playlists.body.items.find(playlist => playlist.name === 'test'); // TODO: selection
+const playlist = playlists.body.items.find(playlist => playlist.name === 'test')!; // TODO: selection
 
 const playlistTracks = await spotifyApi.getPlaylistTracks(playlist.id);
 
-const tracks = playlistTracks.body.items.map(({ track }) => ({
+const tracks: Track[] = playlistTracks.body.items.map(({ track }) => ({
   name: track.name,
   artist: track.artists[0].name,
   id: track.id,
