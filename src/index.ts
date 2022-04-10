@@ -5,7 +5,7 @@ import inquirer from 'inquirer';
 import download from 'download';
 import { Track } from './types';
 
-// TODO: add inquirer and ask if they want to use their own playlist or a link or saved tracks or recently played tracks or top tracks
+// TODO: ask if they want to use their own playlist or a link or saved tracks or recently played tracks or top tracks
 // TODO: error handling
 // TODO: add BeastSaber as alternative source
 // TODO: add option to download map with best rating / given difficulty
@@ -63,9 +63,13 @@ const foundMaps = mapResults.filter(({ maps }) => maps.length > 0);
 const notFoundMaps = mapResults.filter(({ maps }) => maps.length === 0);
 
 // print found maps
-console.log(`Found ${foundMaps.map(({ track }) => track.name).join(', ')} on BeatSaver`);
+if (foundMaps.length) {
+  console.log(`Found ${foundMaps.map(({ track }) => track.name).join(', ')} on BeatSaver`);
+}
 // print not found maps
-console.log(`Could not find ${notFoundMaps.map(({ track }) => track.name).join(', ')} on BeatSaver`);
+if (notFoundMaps.length) {
+  console.log(`Could not find ${notFoundMaps.map(({ track }) => track.name).join(', ')} on BeatSaver`);
+}
 
 // download all maps
 console.log(`Now downloading ${foundMaps.length} maps`);
