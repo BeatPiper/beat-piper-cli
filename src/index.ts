@@ -1,6 +1,6 @@
 import SpotifyWebApi from 'spotify-web-api-node';
-import BeastSaberClient from './util/beastsaber.js';
-import BeatSaverClient from './util/beatsaver.js';
+import BeastSaberClient from './util/beastsaber';
+import BeatSaverClient from './util/beatsaver';
 import fs from 'fs';
 import download from 'download';
 import { Track } from './types';
