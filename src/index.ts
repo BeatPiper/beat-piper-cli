@@ -11,7 +11,6 @@ import { Track } from './types';
 // TODO: add BeastSaber as alternative source
 // TODO: add option to download map with best rating / given difficulty
 // TODO: download progress
-// TODO: add dependabot, eslint and ci workflow
 
 console.log(chalk.underline.magenta('Welcome to Beat Piper!'));
 
