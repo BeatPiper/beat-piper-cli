@@ -7,9 +7,7 @@
   "license": "GPL-3.0-or-later",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "node -r dotenv/config dist",
-    "dev": "yarn build && yarn start",
+    "start": "node -r dotenv/config --es-module-specifier-resolution=node --loader ts-node/esm .",
     "postinstall": "patch-package"
   },
   "dependencies": {

@@ -8,7 +8,7 @@ I got into Beat Saber but haven't found a good way to automatically find beatmap
 
 1. Copy `.env.example` to `.env` and fill in the required fields.
 2. Run `yarn install`
-3. Run `yarn dev`
+3. Run `yarn start`
 
 The tool currently only shows the first 20 playlists and searches for the first 100 songs in a playlist.
 
