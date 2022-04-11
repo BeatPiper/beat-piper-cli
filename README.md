@@ -10,7 +10,7 @@ I got into Beat Saber but haven't found a good way to automatically find beatmap
 2. Run `yarn install`
 3. Run `yarn dev`
 
-The tool currently only searches for a playlist with the name `test` and may fail if there are too many songs in the playlist.
+The tool currently only shows the first 20 playlists and searches for the first 100 songs in a playlist.
 
 # Attributions
 
