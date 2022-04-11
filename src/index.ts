@@ -1,4 +1,7 @@
-import SpotifyClient from './util/spotify';
+import SpotifyClient, {
+  getPlaylistTracksUnauthenticated,
+  getPlaylistUnauthenticated,
+} from './util/spotify';
 import BeatSaverClient from './util/beatsaver.js';
 import fs from 'fs';
 import chalk from 'chalk';
@@ -11,6 +14,7 @@ import { Track } from './types';
 // TODO: add BeastSaber as alternative source
 // TODO: add option to download map with best rating / given difficulty
 // TODO: download progress
+// TODO: is "trackName firstArtistName" good as a search query?
 
 console.log(chalk.underline.magenta('Welcome to Beat Piper!'));
 
@@ -19,59 +23,109 @@ if (!(await fs.existsSync('output'))) {
   await fs.mkdirSync('output');
 }
 
-// register Spotify
-const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } = process.env;
-if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
-  console.log(
-    chalk.red(`Please set the Spotify environment variables (See ${chalk.italic('README.md')})`)
-  );
-  process.exit(0);
+enum PlaylistRetrievalMethod {
+  LOGIN = 'Login with Spotify', // TODO: implement pagination
+  LINK = 'Use a link to a playlist (limited to 100 first songs)', // Link method uses embed which is always limited
 }
-const spotifyClient = new SpotifyClient(SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET);
+const { type } = await inquirer.prompt<{
+  type: PlaylistRetrievalMethod;
+}>([
+  {
+    type: 'list',
+    name: 'type',
+    message: chalk.italic('Which method would you like to use to retrieve your playlist?'),
+    choices: Object.values(PlaylistRetrievalMethod),
+    loop: false,
+  },
+]);
 
-// required Spotify API scopes to read playlists
-const scopes = ['playlist-read-private', 'playlist-read-collaborative'];
-// authorize Spotify user
-try {
-  const token = await spotifyClient.authorize(scopes);
-  spotifyClient.setToken(token.access_token, token.refresh_token);
-} catch (err) {
-  console.log(chalk.red(`Failed to authorize: ${err}`));
-  process.exit(0);
+let playlistName: string;
+let tracks: Track[];
+
+switch (type) {
+  case PlaylistRetrievalMethod.LOGIN: {
+    // register Spotify
+    const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } = process.env;
+    if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
+      console.log(
+        chalk.red(`Please set the Spotify environment variables (See ${chalk.italic('README.md')})`)
+      );
+      process.exit(0);
+    }
+    const spotifyClient = new SpotifyClient(SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET);
+
+    // required Spotify API scopes to read playlists
+    const scopes = ['playlist-read-private', 'playlist-read-collaborative'];
+    // authorize Spotify user
+    try {
+      const token = await spotifyClient.authorize(scopes);
+      spotifyClient.setToken(token.access_token, token.refresh_token);
+    } catch (err) {
+      console.log(chalk.red(`Failed to authorize: ${err}`));
+      process.exit(0);
+    }
+
+    // fetch user's playlists
+    const playlists = await spotifyClient.getPlaylists();
+    console.log(chalk.green(`Found ${chalk.bold(playlists.total)} playlists!`));
+
+    const answers = await inquirer.prompt<{
+      playlist: string;
+    }>([
+      {
+        type: 'list',
+        name: 'playlist',
+        message: chalk.italic('Which playlist do you want to download'),
+        choices: playlists.items.map(playlist => playlist.name),
+        loop: false,
+      },
+    ]);
+    const playlist = playlists.items.find(playlist => playlist.name === answers.playlist)!;
+    playlistName = playlist.name;
+
+    const playlistTracks = await spotifyClient.getPlaylistTracks(playlist.id);
+
+    tracks = playlistTracks.items.map(({ track }) => ({
+      name: track.name,
+      artist: track.artists[0].name,
+      id: track.id,
+      search: `${track.name} ${track.artists[0].name}`,
+    }));
+
+    break;
+  }
+  case PlaylistRetrievalMethod.LINK: {
+    const { link } = await inquirer.prompt<{
+      link: string;
+    }>([
+      {
+        type: 'input',
+        name: 'link',
+        message: chalk.italic('Please enter the link to your playlist'),
+        validate: (input: string) => input.startsWith('https://open.spotify.com/playlist/'),
+      },
+    ]);
+
+    const playlist = await getPlaylistUnauthenticated(link);
+    playlistName = playlist.title;
+
+    const results = await getPlaylistTracksUnauthenticated(link);
+    tracks = results.map(track => ({
+      name: track.name,
+      artist: track.artists![0].name,
+      id: track.id,
+      search: `${track.name} ${track.artists![0].name}`,
+    }));
+    break;
+  }
 }
 
 // register BeatSaver
 const beatSaverClient = new BeatSaverClient();
 
-// fetch user's playlists
-const playlists = await spotifyClient.getPlaylists();
-console.log(chalk.green(`Found ${chalk.bold(playlists.total)} playlists!`));
-
-const answers = await inquirer.prompt<{
-  playlist: string;
-}>([
-  {
-    type: 'list',
-    name: 'playlist',
-    message: chalk.italic('Which playlist do you want to download'),
-    choices: playlists.items.map(playlist => playlist.name),
-    loop: false,
-  },
-]);
-const playlist = playlists.items.find(playlist => playlist.name === answers.playlist)!;
-
-const playlistTracks = await spotifyClient.getPlaylistTracks(playlist.id); // TODO: this is paginated with 100 tracks per page
-
-const tracks: Track[] = playlistTracks.items.map(({ track }) => ({
-  name: track.name,
-  artist: track.artists[0].name,
-  id: track.id,
-  search: `${track.name} ${track.artists[0].name}`, // TODO: is this good as a search query?
-}));
-
 console.log(
   chalk.blue(
-    `Now searching for maps for playlist ${chalk.bold(playlist.name)} (${chalk.bold(
+    `Now searching for maps for playlist ${chalk.bold(playlistName)} (${chalk.bold(
       tracks.length
     )} tracks)…`
   )

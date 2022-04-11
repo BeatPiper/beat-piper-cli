@@ -17,6 +17,8 @@
     "dotenv": "^16.0.0",
     "download": "^8.0.0",
     "inquirer": "^8.2.2",
+    "node-fetch": "^3.2.3",
+    "spotify-url-info": "^3.0.7",
     "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
