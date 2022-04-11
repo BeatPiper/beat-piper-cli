@@ -4,13 +4,11 @@
 I got into Beat Saber but haven't found a good way to automatically find beatmaps for songs I know. There are some similar projects, but they are either paid or I haven't had a good experience with them. 
 
 # Usage
-⚠️ This tool is currently alpha quality software and is not ready for production use.
+⚠️ This tool is currently alpha quality software and is not ready for production use. It currently only shows the first 20 playlists and searches for the first 100 songs in a playlist.
 
 1. Copy `.env.example` to `.env` and fill in the required fields.
 2. Run `yarn install`
 3. Run `yarn start`
-
-The tool currently only shows the first 20 playlists and searches for the first 100 songs in a playlist.
 
 # Attributions
 
