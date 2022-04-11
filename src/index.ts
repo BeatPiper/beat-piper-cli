@@ -50,6 +50,7 @@ const answers = await inquirer.prompt<{
     name: 'playlist',
     message: chalk.italic('Which playlist do you want to download'),
     choices: playlists.body.items.map(playlist => playlist.name),
+    loop: false,
   },
 ]);
 const playlist = playlists.body.items.find(playlist => playlist.name === answers.playlist)!;
