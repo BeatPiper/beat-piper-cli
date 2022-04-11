@@ -1,4 +1,4 @@
-import SpotifyWebApi from 'spotify-web-api-node';
+import SpotifyClient from './util/spotify';
 import BeatSaverClient from './util/beatsaver.js';
 import fs from 'fs';
 import chalk from 'chalk';
@@ -21,26 +21,32 @@ if (!(await fs.existsSync('output'))) {
 }
 
 // register Spotify
-const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_ACCESS_TOKEN } = process.env;
-if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET || !SPOTIFY_ACCESS_TOKEN) {
+const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } = process.env;
+if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
   console.log(
     chalk.red(`Please set the Spotify environment variables (See ${chalk.italic('README.md')})`)
   );
   process.exit(0);
 }
-const spotifyApi = new SpotifyWebApi({
-  clientId: SPOTIFY_CLIENT_ID,
-  clientSecret: SPOTIFY_CLIENT_SECRET,
-  accessToken: SPOTIFY_ACCESS_TOKEN, // TODO: auth flow
-});
+const spotifyClient = new SpotifyClient(SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET);
+
+// required Spotify API scopes to read playlists
+const scopes = ['playlist-read-private', 'playlist-read-collaborative'];
+// authorize Spotify user
+try {
+  const token = await spotifyClient.authorize(scopes);
+  spotifyClient.setToken(token.access_token, token.refresh_token);
+} catch (err) {
+  console.log(chalk.red(`Failed to authorize: ${err}`));
+  process.exit(0);
+}
 
 // register BeatSaver
 const beatSaverClient = new BeatSaverClient();
 
 // fetch user's playlists
-const me = await spotifyApi.getMe();
-const playlists = await spotifyApi.getUserPlaylists(me.body.id);
-console.log(chalk.green(`Found ${chalk.bold(playlists.body.total)} playlists!`));
+const playlists = await spotifyClient.getPlaylists();
+console.log(chalk.green(`Found ${chalk.bold(playlists.total)} playlists!`));
 
 const answers = await inquirer.prompt<{
   playlist: string;
@@ -49,15 +55,15 @@ const answers = await inquirer.prompt<{
     type: 'list',
     name: 'playlist',
     message: chalk.italic('Which playlist do you want to download'),
-    choices: playlists.body.items.map(playlist => playlist.name),
+    choices: playlists.items.map(playlist => playlist.name),
     loop: false,
   },
 ]);
-const playlist = playlists.body.items.find(playlist => playlist.name === answers.playlist)!;
+const playlist = playlists.items.find(playlist => playlist.name === answers.playlist)!;
 
-const playlistTracks = await spotifyApi.getPlaylistTracks(playlist.id); // TODO: this is paginated with 100 tracks per page
+const playlistTracks = await spotifyClient.getPlaylistTracks(playlist.id); // TODO: this is paginated with 100 tracks per page
 
-const tracks: Track[] = playlistTracks.body.items.map(({ track }) => ({
+const tracks: Track[] = playlistTracks.items.map(({ track }) => ({
   name: track.name,
   artist: track.artists[0].name,
   id: track.id,
