@@ -17,6 +17,7 @@
     "dotenv": "^16.0.0",
     "download": "^8.0.0",
     "inquirer": "^8.2.2",
+    "inquirer-autocomplete-prompt": "^2.0.0",
     "node-fetch": "^3.2.3",
     "spotify-url-info": "^3.0.7",
     "spotify-web-api-node": "^5.0.2"
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/download": "^8.0.1",
     "@types/inquirer": "^8.2.1",
+    "@types/inquirer-autocomplete-prompt": "^1.3.4",
     "@types/spotify-web-api-node": "^5.0.7",
     "@typescript-eslint/eslint-plugin": "~5.19.0",
     "@typescript-eslint/parser": "~5.19.0",

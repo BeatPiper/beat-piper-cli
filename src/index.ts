@@ -6,10 +6,13 @@ import BeatSaverClient from './util/beatsaver.js';
 import fs from 'fs';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
+import AutocompletePrompt from 'inquirer-autocomplete-prompt';
 import download from 'download';
 import { Track } from './types';
 
-// TODO: ask if they want to use their own playlist or a link or saved tracks or recently played tracks or top tracks
+// register autocomplete prompt
+inquirer.registerPrompt('autocomplete', AutocompletePrompt);
+
 // TODO: error handling
 // TODO: add BeastSaber as alternative source
 // TODO: add option to download map with best rating / given difficulty
@@ -65,6 +68,8 @@ switch (type) {
       process.exit(0);
     }
 
+    // TODO: implement saved/recently played/top tracks
+
     // fetch user's playlists
     const playlists = await spotifyClient.getAllPlaylists();
     console.log(chalk.green(`Found ${chalk.bold(playlists.total)} playlists!`));
@@ -73,10 +78,16 @@ switch (type) {
       playlist: string;
     }>([
       {
-        type: 'list',
+        type: 'autocomplete',
         name: 'playlist',
         message: chalk.italic('Which playlist do you want to download'),
-        choices: playlists.items.map(playlist => playlist.name),
+        source: (answersSoFar: Array<never>, input?: string) => {
+          return input
+            ? playlists.items.filter(playlist =>
+                playlist.name.toLowerCase().includes(input.toLowerCase())
+              )
+            : playlists.items;
+        },
         loop: false,
       },
     ]);
