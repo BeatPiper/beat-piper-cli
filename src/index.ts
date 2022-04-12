@@ -24,7 +24,7 @@ if (!(await fs.existsSync('output'))) {
 }
 
 enum PlaylistRetrievalMethod {
-  LOGIN = 'Login with Spotify', // TODO: implement pagination
+  LOGIN = 'Login with Spotify',
   LINK = 'Use a link to a playlist (limited to 100 first songs)', // Link method uses embed which is always limited
 }
 const { type } = await inquirer.prompt<{
@@ -66,7 +66,7 @@ switch (type) {
     }
 
     // fetch user's playlists
-    const playlists = await spotifyClient.getPlaylists();
+    const playlists = await spotifyClient.getAllPlaylists();
     console.log(chalk.green(`Found ${chalk.bold(playlists.total)} playlists!`));
 
     const answers = await inquirer.prompt<{
@@ -83,7 +83,7 @@ switch (type) {
     const playlist = playlists.items.find(playlist => playlist.name === answers.playlist)!;
     playlistName = playlist.name;
 
-    const playlistTracks = await spotifyClient.getPlaylistTracks(playlist.id);
+    const playlistTracks = await spotifyClient.getAllPlaylistTracks(playlist.id);
 
     tracks = playlistTracks.items.map(({ track }) => ({
       name: track.name,

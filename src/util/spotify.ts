@@ -86,13 +86,39 @@ export default class SpotifyClient {
     return tokenRequestBody.body;
   }
 
-  async getPlaylists(): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
-    const playlists = await this.spotifyApi.getUserPlaylists();
+  async getAllPlaylists(): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
+    const start = await this.getPlaylists();
+    const playlists = start.items;
+
+    let offset = 50;
+    while (playlists.length < start.total) {
+      playlists.push(...(await this.getPlaylists(offset)).items);
+      offset += 50;
+    }
+
+    return start;
+  }
+
+  async getPlaylists(offset = 0): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
+    const playlists = await this.spotifyApi.getUserPlaylists({ offset, limit: 50 });
     return playlists.body;
   }
 
-  async getPlaylistTracks(playlistId: string): Promise<SpotifyApi.PlaylistTrackResponse> {
-    const tracks = await this.spotifyApi.getPlaylistTracks(playlistId);
+  async getAllPlaylistTracks(playlistId: string): Promise<SpotifyApi.PlaylistTrackResponse> {
+    const start = await this.getPlaylistTracks(playlistId);
+    const tracks = start.items;
+
+    let offset = 50;
+    while (tracks.length < start.total) {
+      tracks.push(...(await this.getPlaylistTracks(playlistId, offset)).items);
+      offset += 50;
+    }
+
+    return start;
+  }
+
+  async getPlaylistTracks(playlistId: string, offset = 0): Promise<SpotifyApi.PlaylistTrackResponse> {
+    const tracks = await this.spotifyApi.getPlaylistTracks(playlistId, { offset, limit: 50 });
     return tracks.body;
   }
 }
