@@ -2,11 +2,11 @@
 - Add BeastSaber as alternative source
 - BeatSage integration
 - YouTube/SoundCloud/Deezer/Apple Music/... playlists support
-- Create a BeatSaber playlist file for the downloaded songs
 - Can we reduce the timeout of 1 second for the BeatSaver API?
 - Support using saved/recently played/top tracks
 - Client/server architecture with the option of running a local server
 - Web based GUI
 - Add option to filter maps by given difficulty / rating
+- Add option to download multiple maps for each song
 - Download progress indicator
 - Double-check if "trackName firstArtistName" is good as a search query?

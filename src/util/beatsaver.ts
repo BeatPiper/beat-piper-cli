@@ -1,8 +1,10 @@
-import { Track, TrackWithMaps } from '../types';
+import { Maps, BeatSaberPlaylist, Track, TrackWithMaps } from '../types';
 import BeatSaverAPI from 'beatsaver-api';
+import { fileTypeFromBuffer } from 'file-type';
 import { SortOrder } from 'beatsaver-api/lib/api/search.js';
 import { MapDetail } from 'beatsaver-api/lib/models/MapDetail.js';
 import { MapVersion } from 'beatsaver-api/lib/models/MapVersion.js';
+import download from 'download';
 
 export default class BeatSaverClient {
   private readonly api: BeatSaverAPI;
@@ -43,6 +45,37 @@ export default class BeatSaverClient {
     return {
       track,
       maps: results.docs.filter(map => map.name.toLowerCase().includes(track.name.toLowerCase())), // TODO: maybe use Levenshtein distance
+    };
+  }
+
+  async createPlaylist(
+    playlistTitle: string,
+    playlistDescription: string,
+    imageUrl: string,
+    maps: Maps
+  ): Promise<BeatSaberPlaylist> {
+    const songs = maps.map(map => ({
+      key: map.id,
+      hash: BeatSaverClient.getLatestVersion(map).hash,
+      name: map.name,
+      uploader: map.uploader.name,
+    }));
+
+    let image: string | null = null;
+    if (imageUrl) {
+      const buffer = await download(imageUrl);
+      const fileType = await fileTypeFromBuffer(buffer);
+      if (fileType) {
+        image = `data:${fileType.mime};base64,${buffer.toString('base64')}`;
+      }
+    }
+
+    return {
+      playlistTitle,
+      playlistDescription,
+      playlistAuthor: 'Beat Piper',
+      songs,
+      image,
     };
   }
 }

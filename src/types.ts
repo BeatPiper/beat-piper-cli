@@ -7,9 +7,27 @@ export interface Track {
   search: string;
 }
 
+export type Maps = MapDetail[];
+
 export interface TrackWithMaps {
   track: Track;
-  maps: MapDetail[];
+  maps: Maps;
+}
+
+export interface BeatSaberPlaylist {
+  playlistTitle: string;
+  playlistAuthor: string;
+  playlistDescription: string;
+  syncURL?: string;
+  image: string | null;
+  songs: BeatSaberPlaylistSong[];
+}
+
+export interface BeatSaberPlaylistSong {
+  uploader: string;
+  name: string;
+  key: string;
+  hash: string;
 }
 
 export interface SavedToken {

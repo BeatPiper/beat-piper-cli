@@ -34,6 +34,8 @@ const { type } = await inquirer.prompt<{
 ]);
 
 let playlistName: string;
+let playlistDescription: string;
+let playlistImageUrl: string;
 let tracks: Track[];
 
 switch (type) {
@@ -82,6 +84,8 @@ switch (type) {
     ]);
     const playlist = playlists.items.find(playlist => playlist.name === answers.playlist)!;
     playlistName = playlist.name;
+    playlistDescription = playlist.description || 'No description';
+    playlistImageUrl = playlist.images.length ? playlist.images[0].url : '';
 
     const playlistTracks = await spotifyClient.getAllPlaylistTracks(playlist.id);
 
@@ -111,6 +115,8 @@ switch (type) {
 
     const playlist = await getPlaylistUnauthenticated(link);
     playlistName = playlist.preview.title;
+    playlistDescription = playlist.preview.description || 'No description';
+    playlistImageUrl = playlist.preview.image;
 
     tracks = playlist.tracks.map(track => ({
       name: track.name,
@@ -154,8 +160,43 @@ if (notFoundMaps.length) {
   );
 }
 
-// download all maps
-console.log(chalk.blue(`Now downloading ${chalk.bold(foundMaps.length)} maps…`));
-await Promise.all(
-  foundMaps.map(({ maps }) => download(BeatSaverClient.getLatestVersion(maps[0]).downloadURL, 'output'))
-);
+enum SaveType {
+  DOWNLOAD = 'Download all maps',
+  BPLIST = 'Save a .bplist file',
+}
+const { saveType } = await inquirer.prompt<{
+  saveType: SaveType;
+}>([
+  {
+    type: 'list',
+    name: 'saveType',
+    message: chalk.italic('How would you like to export the maps?'),
+    choices: Object.values(SaveType),
+    loop: false,
+  },
+]);
+
+switch (saveType) {
+  case SaveType.DOWNLOAD: {
+    // download all maps
+    console.log(chalk.blue(`Now downloading ${chalk.bold(foundMaps.length)} maps…`));
+    await Promise.all(
+      foundMaps.map(({ maps }) =>
+        download(BeatSaverClient.getLatestVersion(maps[0]).downloadURL, 'output')
+      )
+    );
+    break;
+  }
+  case SaveType.BPLIST: {
+    // save beat saber playlist
+    console.log(chalk.blue(`Now saving Beat Saber playlist with ${chalk.bold(foundMaps.length)} maps…`));
+    const beatSaberPlaylist = await beatSaverClient.createPlaylist(
+      playlistName,
+      playlistDescription,
+      playlistImageUrl,
+      foundMaps.map(({ maps }) => maps[0])
+    );
+    fs.writeFileSync(`output/${playlistName}.bplist`, JSON.stringify(beatSaberPlaylist, null, 4));
+    break;
+  }
+}
