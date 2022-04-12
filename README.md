@@ -1,4 +1,20 @@
-![Banner](https://socialify.git.ci/D3SOX/beat-piper/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Floating%20Cogs&pulls=1&stargazers=1&theme=Dark)
+<div align="center">
+
+  # Beat Piper
+
+  ![Logo](./assets/logo.png)
+
+  [![GitHub Repo stars](https://img.shields.io/github/stars/D3SOX/beat-piper?style=for-the-badge)](https://github.com/D3SOX/beat-piper/stargazers)
+  [![GitHub issues](https://img.shields.io/github/issues/D3SOX/beat-piper?style=for-the-badge)](https://github.com/D3SOX/beat-piper/issues)
+  [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/D3SOX/beat-piper?label=pulls&style=for-the-badge)](https://github.com/D3SOX/beat-piper/pulls)
+  <br>
+  [![License](https://img.shields.io/github/license/D3SOX/beat-piper?style=for-the-badge)](https://github.com/D3OX/beat-piper/blob/master/LICENSE)
+  [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge)](https://github.com/prettier/prettier)
+  <br>
+  [![Node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=fff)](https://nodejs.org/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
+
+</div>
 
 # Motivation
 I got into Beat Saber but haven't found a good way to automatically find beatmaps for songs I know. There are some similar projects, but they are either paid or I haven't had a good experience with them. 
