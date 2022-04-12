@@ -48,12 +48,12 @@ switch (type) {
     }
     const spotifyClient = new SpotifyClient(SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET);
 
-    // required Spotify API scopes to read playlists
-    const scopes = ['playlist-read-private', 'playlist-read-collaborative'];
-    // authorize Spotify user
     try {
-      const token = await spotifyClient.authorize(scopes);
-      spotifyClient.setToken(token.access_token, token.refresh_token);
+      if (spotifyClient.areCredentialsSaved()) {
+        await spotifyClient.loadSavedCredentials();
+      } else {
+        await spotifyClient.authorize();
+      }
     } catch (err) {
       console.log(chalk.red(`Failed to authorize: ${err}`));
       process.exit(0);

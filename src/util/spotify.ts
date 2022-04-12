@@ -3,7 +3,8 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import chalk from 'chalk';
 import fetch from 'node-fetch';
 import spotify, { Preview, Tracks } from 'spotify-url-info';
-import { AuthorizationCodeGrantResponse } from '../types';
+import { SavedToken } from '../types';
+import fs from 'fs';
 
 async function getResponseParams(port: number): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -24,6 +25,7 @@ async function getResponseParams(port: number): Promise<string> {
 }
 
 const PORT = 3000;
+const CREDENTIALS_FILE = './spotify.json';
 
 const unauthenticatedSpotifyApi = spotify(fetch);
 export async function getPlaylistUnauthenticated(
@@ -47,20 +49,50 @@ export default class SpotifyClient {
     });
   }
 
-  setToken(accessToken: string, refreshToken: string) {
-    this.spotifyApi.setAccessToken(accessToken);
-    this.spotifyApi.setRefreshToken(refreshToken);
+  areCredentialsSaved(): boolean {
+    return fs.existsSync(CREDENTIALS_FILE);
   }
 
-  async refreshToken(): Promise<void> {
-    const data = await this.spotifyApi.refreshAccessToken();
-    this.spotifyApi.setAccessToken(data.body.access_token);
-    if (data.body.refresh_token) {
-      this.spotifyApi.setRefreshToken(data.body.refresh_token);
+  async loadSavedCredentials(): Promise<void> {
+    const { accessToken, refreshToken, expiredAt } = JSON.parse(
+      fs.readFileSync(CREDENTIALS_FILE, 'utf8')
+    ) as SavedToken;
+    this.spotifyApi.setAccessToken(accessToken);
+    this.spotifyApi.setRefreshToken(refreshToken);
+    if (Date.now() > expiredAt) {
+      await this.refreshToken();
     }
   }
 
-  async authorize(scopes: string[]): Promise<AuthorizationCodeGrantResponse> {
+  saveToken(accessToken: string, refreshToken: string, expiresIn: number) {
+    const savedToken: SavedToken = {
+      accessToken,
+      refreshToken,
+      expiredAt: Date.now() + expiresIn * 1000,
+    };
+    fs.writeFileSync(CREDENTIALS_FILE, JSON.stringify(savedToken), 'utf8');
+  }
+
+  async refreshToken(): Promise<void> {
+    const currentRefreshToken = this.spotifyApi.getRefreshToken();
+    if (currentRefreshToken) {
+      const { access_token, refresh_token, expires_in } = (await this.spotifyApi.refreshAccessToken())
+        .body;
+      this.spotifyApi.setAccessToken(access_token);
+      if (refresh_token) {
+        this.spotifyApi.setRefreshToken(refresh_token);
+      }
+      this.saveToken(access_token, refresh_token || currentRefreshToken, expires_in);
+    } else {
+      throw new Error('No refresh token found');
+    }
+  }
+
+  async authorize(): Promise<void> {
+    // required Spotify API scopes to read playlists
+    const scopes = ['playlist-read-private', 'playlist-read-collaborative'];
+
+    // generate a random string for the state
     const state = Math.random().toString(36).slice(2);
 
     const spotifyUrl = this.spotifyApi.createAuthorizeURL(scopes, state);
@@ -79,10 +111,15 @@ export default class SpotifyClient {
       throw new Error('No code received');
     }
 
-    const tokenRequestBody = await this.spotifyApi.authorizationCodeGrant(receivedCode);
+    const { access_token, refresh_token, expires_in } = (
+      await this.spotifyApi.authorizationCodeGrant(receivedCode)
+    ).body;
 
     console.info(chalk.green('Login successful!'));
-    return tokenRequestBody.body;
+
+    this.spotifyApi.setAccessToken(access_token);
+    this.spotifyApi.setRefreshToken(refresh_token);
+    this.saveToken(access_token, refresh_token, expires_in);
   }
 
   async getAllPlaylists(): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
