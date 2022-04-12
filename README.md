@@ -3,12 +3,20 @@
 # Motivation
 I got into Beat Saber but haven't found a good way to automatically find beatmaps for songs I know. There are some similar projects, but they are either paid or I haven't had a good experience with them. 
 
-# Usage
-⚠️ This tool is currently alpha quality software and is not ready for production use. It currently only shows the first 20 playlists and searches for the first 100 songs in a playlist.
+# Retrieval methods
+## Spotify API
+You can use the Spotify Web API to fetch your playlists.
+For that you need to copy `.env.example` to `.env` and fill in the required fields.
 
-1. Copy `.env.example` to `.env` and fill in the required fields.
-2. Run `yarn install`
-3. Run `yarn start`
+## Public playlists
+Alternatively you can provide a link to a public playlist.
+This has a limitation of only fetching the first 100 songs. [See why](https://github.com/microlinkhq/spotify-url-info/issues/69#issuecomment-802364053)
+
+# Usage
+⚠️ This tool is currently alpha quality software and is not ready for production use.
+
+1. Run `yarn install`
+2. Run `yarn start`
 
 # Attributions
 
