@@ -2,6 +2,8 @@
 - Add BeastSaber as alternative source
 - BeatSage integration
 - YouTube/SoundCloud/Deezer/Apple Music/... playlists support
+- Create a BeatSaber playlist file for the downloaded songs
+- Can we reduce the timeout of 1 second for the BeatSaver API?
 - Support using saved/recently played/top tracks
 - Client/server architecture with the option of running a local server
 - Web based GUI

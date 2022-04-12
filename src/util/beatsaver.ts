@@ -19,7 +19,7 @@ export default class BeatSaverClient {
   }
 
   async searchInBatches(tracks: Track[]): Promise<TrackWithMaps[]> {
-    // create chunks of 100 track
+    // create chunks of 10 tracks
     const chunks = [];
     for (let i = 0; i < tracks.length; i += 10) {
       chunks.push(tracks.slice(i, i + 10));
