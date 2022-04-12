@@ -10,12 +10,6 @@ import { Track } from './types';
 // register autocomplete prompt
 inquirer.registerPrompt('autocomplete', AutocompletePrompt);
 
-// TODO: error handling
-// TODO: add BeastSaber as alternative source
-// TODO: add option to download map with best rating / given difficulty
-// TODO: download progress
-// TODO: is "trackName firstArtistName" good as a search query?
-
 console.log(chalk.underline.magenta('Welcome to Beat Piper!'));
 
 // create output folder
@@ -64,8 +58,6 @@ switch (type) {
       console.log(chalk.red(`Failed to authorize: ${err}`));
       process.exit(0);
     }
-
-    // TODO: implement saved/recently played/top tracks
 
     // fetch user's playlists
     const playlists = await spotifyClient.getAllPlaylists();
