@@ -113,7 +113,10 @@ switch (type) {
         type: 'input',
         name: 'link',
         message: chalk.italic('Please enter the link to your playlist'),
-        validate: (input: string) => input.startsWith('https://open.spotify.com/playlist/'),
+        validate: (input: string) =>
+          input.startsWith('https://open.spotify.com/playlist/')
+            ? true
+            : 'Please enter a valid Spotify playlist link',
       },
     ]);
 
