@@ -148,14 +148,20 @@ const notFoundMaps = mapResults.filter(({ maps }) => maps.length === 0);
 // print found maps
 if (foundMaps.length) {
   console.log(
-    chalk.green(`Found ${chalk.bold(foundMaps.map(({ track }) => track.name).join(', '))} on BeatSaver`)
+    chalk.green(
+      `Found ${chalk.bold(foundMaps.length)} songs on BeatSaver: ${chalk.italic(
+        foundMaps.map(({ track }) => track.name).join(', ')
+      )}`
+    )
   );
 }
 // print not found maps
 if (notFoundMaps.length) {
   console.log(
     chalk.red(
-      `Could not find ${chalk.bold(notFoundMaps.map(({ track }) => track.name).join(', '))} on BeatSaver`
+      `Could not find ${chalk.bold(notFoundMaps.length)} songs on BeatSaver: ${chalk.italic(
+        notFoundMaps.map(({ track }) => track.name).join(', ')
+      )}`
     )
   );
 }
