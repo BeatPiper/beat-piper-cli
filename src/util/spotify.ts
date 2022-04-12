@@ -26,11 +26,10 @@ async function getResponseParams(port: number): Promise<string> {
 const PORT = 3000;
 
 const unauthenticatedSpotifyApi = spotify(fetch);
-export async function getPlaylistUnauthenticated(url: string): Promise<Preview> {
-  return await unauthenticatedSpotifyApi.getPreview(url);
-}
-export async function getPlaylistTracksUnauthenticated(url: string): Promise<Tracks[]> {
-  return await unauthenticatedSpotifyApi.getTracks(url);
+export async function getPlaylistUnauthenticated(
+  url: string
+): Promise<{ preview: Preview; tracks: Tracks[] }> {
+  return await unauthenticatedSpotifyApi.getDetails(url);
 }
 
 export default class SpotifyClient {

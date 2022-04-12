@@ -1,7 +1,4 @@
-import SpotifyClient, {
-  getPlaylistTracksUnauthenticated,
-  getPlaylistUnauthenticated,
-} from './util/spotify';
+import SpotifyClient, { getPlaylistUnauthenticated } from './util/spotify';
 import BeatSaverClient from './util/beatsaver.js';
 import fs from 'fs';
 import chalk from 'chalk';
@@ -121,10 +118,9 @@ switch (type) {
     ]);
 
     const playlist = await getPlaylistUnauthenticated(link);
-    playlistName = playlist.title;
+    playlistName = playlist.preview.title;
 
-    const results = await getPlaylistTracksUnauthenticated(link);
-    tracks = results.map(track => ({
+    tracks = playlist.tracks.map(track => ({
       name: track.name,
       artist: track.artists![0].name,
       id: track.id,
