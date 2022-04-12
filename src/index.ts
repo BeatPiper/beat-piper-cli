@@ -19,7 +19,7 @@ if (!(await fs.existsSync('output'))) {
 
 enum PlaylistRetrievalMethod {
   LOGIN = 'Login with Spotify',
-  LINK = 'Use a link to a playlist (limited to 100 first songs)', // Link method uses embed which is always limited
+  LINK = 'Use a link to a playlist (limited to the first 100 songs)', // Link method uses embed which is always limited
 }
 const { type } = await inquirer.prompt<{
   type: PlaylistRetrievalMethod;
