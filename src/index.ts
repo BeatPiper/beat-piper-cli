@@ -13,8 +13,8 @@ inquirer.registerPrompt('autocomplete', AutocompletePrompt);
 console.log(chalk.underline.magenta('Welcome to Beat Piper!'));
 
 // create output folder
-if (!(await fs.existsSync('output'))) {
-  await fs.mkdirSync('output');
+if (!fs.existsSync('output')) {
+  fs.mkdirSync('output');
 }
 
 enum PlaylistRetrievalMethod {
