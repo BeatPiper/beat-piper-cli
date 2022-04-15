@@ -202,7 +202,10 @@ switch (saveType) {
       playlistImageUrl,
       foundMaps.map(({ maps }) => maps[0])
     );
-    fs.writeFileSync(`output/${playlistName}.bplist`, JSON.stringify(beatSaberPlaylist, null, 4));
+    fs.writeFileSync(
+      `output/${playlistName.replaceAll('/', '').replaceAll('\\', '')}.bplist`,
+      JSON.stringify(beatSaberPlaylist, null, 4)
+    );
     break;
   }
 }
