@@ -31,7 +31,7 @@ const unauthenticatedSpotifyApi = spotify(fetch);
 export async function getPlaylistUnauthenticated(
   url: string
 ): Promise<{ preview: Preview; tracks: Tracks[] }> {
-  return await unauthenticatedSpotifyApi.getDetails(url);
+  return unauthenticatedSpotifyApi.getDetails(url);
 }
 
 export default class SpotifyClient {
