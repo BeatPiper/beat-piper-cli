@@ -17,7 +17,9 @@ export default class BeatSaverClient {
   }
 
   static getLatestVersion(map: MapDetail): MapVersion {
-    return map.versions.sort((a, b) => b.createdAt.epochSeconds - a.createdAt.epochSeconds)[0];
+    const { versions } = map;
+    versions.sort((a, b) => b.createdAt.epochSeconds - a.createdAt.epochSeconds);
+    return versions[0];
   }
 
   async searchInBatches(tracks: Track[]): Promise<TrackWithMaps[]> {
