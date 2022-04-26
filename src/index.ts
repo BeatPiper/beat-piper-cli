@@ -74,15 +74,15 @@ switch (type) {
         message: chalk.italic('Which playlist do you want to download'),
         source: (answersSoFar: Array<never>, input?: string) => {
           return input
-            ? playlists.items.filter(playlist =>
-                playlist.name.toLowerCase().includes(input.toLowerCase())
+            ? playlists.items.filter(playlistItem =>
+                playlistItem.name.toLowerCase().includes(input.toLowerCase())
               )
             : playlists.items;
         },
         loop: false,
       },
     ]);
-    const playlist = playlists.items.find(playlist => playlist.name === answers.playlist)!;
+    const playlist = playlists.items.find(playlistItem => playlistItem.name === answers.playlist)!;
     playlistName = playlist.name;
     playlistDescription = playlist.description || 'No description';
     playlistImageUrl = playlist.images.length ? playlist.images[0].url : '';
