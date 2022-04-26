@@ -72,7 +72,7 @@ switch (type) {
         type: 'autocomplete',
         name: 'playlist',
         message: chalk.italic('Which playlist do you want to download'),
-        source: (answersSoFar: Array<never>, input?: string) => {
+        source: (_answersSoFar: Array<never>, input?: string) => {
           return input
             ? playlists.items.filter(playlistItem =>
                 playlistItem.name.toLowerCase().includes(input.toLowerCase())
