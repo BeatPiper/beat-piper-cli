@@ -15,7 +15,7 @@
     "chalk": "^5.0.1",
     "dotenv": "^16.0.1",
     "download": "^8.0.0",
-    "file-type": "^17.1.1",
+    "file-type": "^17.1.2",
     "inquirer": "^8.2.4",
     "inquirer-autocomplete-prompt": "^2.0.0",
     "node-fetch": "^3.2.5",
