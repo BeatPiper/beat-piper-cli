@@ -1,3 +1,11 @@
+# Heads up
+
+A new iteration of the project is currently under development.
+It's a web app that will be available on [BeatPiper.com](https://beatpiper.com/)
+
+Here is a little sneak peek (WIP)
+![WIP](./assets/wip.png)
+
 <div align="center">
 
   # Beat Piper
