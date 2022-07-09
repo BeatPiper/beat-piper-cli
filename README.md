@@ -12,11 +12,11 @@ Here is a little sneak peek (WIP)
 
   ![Logo](./assets/logo.png)
 
-  [![GitHub Repo stars](https://img.shields.io/github/stars/D3SOX/beat-piper?style=for-the-badge)](https://github.com/D3SOX/beat-piper/stargazers)
-  [![GitHub issues](https://img.shields.io/github/issues/D3SOX/beat-piper?style=for-the-badge)](https://github.com/D3SOX/beat-piper/issues)
-  [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/D3SOX/beat-piper?label=pulls&style=for-the-badge)](https://github.com/D3SOX/beat-piper/pulls)
+  [![GitHub Repo stars](https://img.shields.io/github/stars/BeatPiper/beat-piper?style=for-the-badge)](https://github.com/BeatPiper/beat-piper/stargazers)
+  [![GitHub issues](https://img.shields.io/github/issues/BeatPiper/beat-piper?style=for-the-badge)](https://github.com/BeatPiper/beat-piper/issues)
+  [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/BeatPiper/beat-piper?label=pulls&style=for-the-badge)](https://github.com/BeatPiper/beat-piper/pulls)
   <br>
-  [![License](https://img.shields.io/github/license/D3SOX/beat-piper?style=for-the-badge)](https://github.com/D3SOX/beat-piper/blob/master/LICENSE)
+  [![License](https://img.shields.io/github/license/BeatPiper/beat-piper?style=for-the-badge)](https://github.com/BeatPiper/beat-piper/blob/master/LICENSE)
   [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge)](https://github.com/prettier/prettier)
   <br>
   [![Node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=fff)](https://nodejs.org/)
