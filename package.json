@@ -18,7 +18,7 @@
     "file-type": "^17.1.4",
     "inquirer": "^8.2.4",
     "inquirer-autocomplete-prompt": "^2.0.0",
-    "node-fetch": "^3.2.9",
+    "node-fetch": "^3.2.10",
     "spotify-url-info": "^3.1.2",
     "spotify-web-api-node": "^5.0.2"
   },
