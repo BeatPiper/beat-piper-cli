@@ -11,7 +11,7 @@
     "lint": "eslint --ignore-path .gitignore --ext .ts src"
   },
   "dependencies": {
-    "beatsaver-api": "^2.0.4",
+    "beatsaver-api": "^2.1.0",
     "chalk": "^5.0.1",
     "dotenv": "^16.0.2",
     "download": "^8.0.0",
