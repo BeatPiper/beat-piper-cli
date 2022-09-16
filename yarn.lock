@@ -365,10 +365,10 @@ base64-js@^1.3.1:
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
-beatsaver-api@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/beatsaver-api/-/beatsaver-api-2.1.2.tgz#3bd5512dbc3802079e2e3233f7cddaa171e95522"
-  integrity sha512-GLgpvWBFYezOCAG+Nu9Purv5yFV08KJjIdLu04/eWgwHAuiarVwI0fIBUyinZ4SPj4l4uFyWGiJdUbF/oh3qmg==
+beatsaver-api@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/beatsaver-api/-/beatsaver-api-2.1.4.tgz#7baa0972f53956b5c4609c966a57cc1993f6d3f6"
+  integrity sha512-GPePgD1EK55NDOSQuRdS+eegcmXw3zWiGoYhOJgICWwGxOxHyGP9/y7YwY+120XUrdG2aQcahHOfz2FMXq/xiA==
   dependencies:
     axios "^0.27.2"
     detect-node "^2.1.0"
