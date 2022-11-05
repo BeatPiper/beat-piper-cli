@@ -18,7 +18,7 @@ export default class BeatSaverClient {
 
   static getLatestVersion(map: MapDetail): MapVersion {
     const { versions } = map;
-    versions.sort((a, b) => b.createdAt.epochSeconds - a.createdAt.epochSeconds);
+    versions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     return versions[0];
   }
 
