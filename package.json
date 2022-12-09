@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "beatsaver-api": "^2.1.4",
-    "chalk": "^5.1.2",
+    "chalk": "^5.2.0",
     "dotenv": "^16.0.3",
     "download": "^8.0.0",
     "file-type": "^18.0.0",
