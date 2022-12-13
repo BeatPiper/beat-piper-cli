@@ -2033,10 +2033,10 @@ spotify-uri@~3.0.3:
   resolved "https://registry.yarnpkg.com/spotify-uri/-/spotify-uri-3.0.3.tgz#d09ae7e013f12fe2c22eed06cda2463be220597b"
   integrity sha512-mMstJ4dAMki6GbUjg94kp/h9ZH+7T7+ro/KUC00WVh+WKoLgMRrTKLkWMIwCZNO53Xa8DRHQw/6jwYtRZrVI3g==
 
-spotify-url-info@^3.1.9:
-  version "3.1.9"
-  resolved "https://registry.yarnpkg.com/spotify-url-info/-/spotify-url-info-3.1.9.tgz#031c4ac4498ae66e4194b3a322bd667c23839772"
-  integrity sha512-1iMvLEpXve8/QB8JnkbBTOOGi7UpCiQ5QJeTt+koJiMfIZIyrN+afRtRr0UOTKJp/KlAUYTJPGYDeNbqKDjIJw==
+spotify-url-info@^3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/spotify-url-info/-/spotify-url-info-3.1.10.tgz#05c35b120fcdf3721f9da4f2ed6434d9d11ac60d"
+  integrity sha512-T2LNhdtQ10GkzzInPUWFtAF2bIVY7zlu2HaQ+59OAH92Q04xIlyVg3jT5pbzo3R7MiEIzRzRoq4RDTVw+8DI5A==
   dependencies:
     himalaya "~1.1.0"
     spotify-uri "~3.0.3"
