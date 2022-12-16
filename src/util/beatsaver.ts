@@ -2,8 +2,8 @@ import { Maps, BeatSaberPlaylist, Track, TrackWithMaps } from '../types';
 import BeatSaverAPI from 'beatsaver-api';
 import { fileTypeFromBuffer } from 'file-type';
 import { SortOrder } from 'beatsaver-api/lib/api/search.js';
-import { MapDetail } from 'beatsaver-api/lib/models/MapDetail.js';
-import { MapVersion } from 'beatsaver-api/lib/models/MapVersion.js';
+import type { MapDetail } from 'beatsaver-api/lib/models/MapDetail.js';
+import type { MapVersion } from 'beatsaver-api/lib/models/MapVersion.js';
 import download from 'download';
 
 export default class BeatSaverClient {
