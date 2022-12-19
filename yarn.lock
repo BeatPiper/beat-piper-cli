@@ -137,21 +137,14 @@
     "@types/tough-cookie" "*"
     form-data "^2.5.0"
 
-"@types/inquirer-autocomplete-prompt@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@types/inquirer-autocomplete-prompt/-/inquirer-autocomplete-prompt-2.0.0.tgz#8b60cab59bb6b4c2f1885cb86316f0aa82fa24c9"
-  integrity sha512-KgzR9j7R2hyhnLAdYjZ4EzjspnLENrcqZyKXphBAeN2/9qvHpd4lTxSWKkTuG8aeTPM9/5Fk0IGqSJCTkV+ZVw==
+"@types/inquirer-autocomplete-prompt@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/inquirer-autocomplete-prompt/-/inquirer-autocomplete-prompt-3.0.0.tgz#7b70fcc51023d18faa1a3b8d3f03068cf20c1d9b"
+  integrity sha512-qgaINEdGNMP4fq3BJi5rvs8iMNrYhrp6krGwuVJ3jhFr+6gwqiHPSWrKov4x9vCJFbpzDVoDYjNdFG3kepdhDw==
   dependencies:
-    "@types/inquirer" "^8"
+    "@types/inquirer" "*"
 
-"@types/inquirer@^8":
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/@types/inquirer/-/inquirer-8.2.2.tgz#7ec5f166026b55b10df011521c8a63920cb84a7a"
-  integrity sha512-HXoFOl+KS4yvmUjisi83VpuSBOeeXIzdJfoT/v2pUruqybpHy0Dz1DyXy3E2jNH0cSVKJZV92VOnFBwJR6k83A==
-  dependencies:
-    "@types/through" "*"
-
-"@types/inquirer@^9.0.3":
+"@types/inquirer@*", "@types/inquirer@^9.0.3":
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/@types/inquirer/-/inquirer-9.0.3.tgz#dc99da4f2f6de9d26c284b4f6aaab4d98c456db1"
   integrity sha512-CzNkWqQftcmk2jaCWdBTf9Sm7xSw4rkI1zpU/Udw3HX5//adEZUIm9STtoRP1qgWj0CWQtJ9UTvqmO2NNjhMJw==
