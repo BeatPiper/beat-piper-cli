@@ -19,7 +19,7 @@
     "inquirer": "^9.1.4",
     "inquirer-autocomplete-prompt": "^3.0.0",
     "node-fetch": "^3.3.0",
-    "spotify-url-info": "^3.1.10",
+    "spotify-url-info": "^3.2.3",
     "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
