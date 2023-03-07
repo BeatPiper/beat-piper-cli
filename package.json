@@ -27,7 +27,7 @@
     "@types/inquirer": "^9.0.3",
     "@types/inquirer-autocomplete-prompt": "^3.0.0",
     "@types/spotify-web-api-node": "^5.0.7",
-    "@typescript-eslint/eslint-plugin": "~5.54.0",
+    "@typescript-eslint/eslint-plugin": "~5.54.1",
     "@typescript-eslint/parser": "~5.54.0",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
