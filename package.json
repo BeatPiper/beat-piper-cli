@@ -16,7 +16,7 @@
     "dotenv": "^16.0.3",
     "download": "^8.0.0",
     "file-type": "^18.2.1",
-    "inquirer": "^9.1.4",
+    "inquirer": "^9.1.5",
     "inquirer-autocomplete-prompt": "^3.0.0",
     "node-fetch": "^3.3.1",
     "spotify-url-info": "^3.2.3",
